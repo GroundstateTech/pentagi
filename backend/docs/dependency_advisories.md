@@ -44,3 +44,18 @@ An advisory here gaining a `Fixed in` version, our code starting to run Ollama's
 server side in-process, or the `go` line moving. Re-run the command above after
 any dependency work and compare the module list, not just the count: a new module
 appearing is the signal.
+
+## Security refresh — 2026-10-22
+
+The older count above is historical, not a current all-clear. The minimum Go
+version and CI toolchain now require 1.26.10. Compatible updates address new
+JSON parser, S2 decompressor, SSH/HTTP2, module transparency-log, and
+OpenTelemetry endpoint-logging advisories. Inspect the current `go.mod` and
+`go.sum` for the resolved versions. The Docker builder remains on the existing
+Go 1.26 line and must satisfy the module's new minimum. Rebuild installed
+binaries and containers; changing source does not patch existing installations.
+
+Module-only results for Ollama and OpenPGP require call-path assessment. They
+are not proof that Pentagi runs an Ollama server or imports OpenPGP. Avoid
+exposing an independently hosted Ollama server without its own authentication
+and security review. A module-graph scan does not replace `govulncheck ./...`.
